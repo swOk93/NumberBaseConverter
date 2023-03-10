@@ -8,7 +8,7 @@ fun converterTo(): Int {
     var res = 0.0
     repeat(quotient.length) {
         if (base > 9 && it != quotient.length) {
-            val n = quotient[it].uppercase().code - 45
+            val n = quotient[it].uppercaseChar().code - 45
             res += n * Math.pow(base, (quotient.length-it-1).toDouble())
         }
         else if (it != quotient.length) {
