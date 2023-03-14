@@ -1,5 +1,8 @@
 package converter // Do not delete this line
 
+var sourse = 0
+var target = 0
+
 fun converterTo(): Int {
     println("Enter source number:")
     var quotient = readln()
@@ -7,14 +10,13 @@ fun converterTo(): Int {
     val base = readln().toDouble()
     var res = 0.0
     repeat(quotient.length) {
-        if (base > 9 && it != quotient.length) {
-            val n = quotient[it].uppercaseChar().code - 45
+        if (base > 9 && !quotient[it].isDigit()) {
+            val n = quotient[it].uppercaseChar().code - 55
             res += n * Math.pow(base, (quotient.length-it-1).toDouble())
         }
         else if (it != quotient.length) {
             if (quotient[it].digitToInt() in 0..9) res += quotient[it].digitToInt() * Math.pow(base, (quotient.length-it-1).toDouble())
         }
-        else res += quotient[it].digitToInt()
     }
     return res.toInt()
 }
@@ -35,14 +37,29 @@ fun converterFrom(): String {
     return res
 }
 
+fun converter(): String {
+    var quotient = 0
+    while (quotient != "/back") {
+        println("Enter number in base ${sourse} to convert to base ${target} (To go back type /back)")
+        var quotient = readln()
+        if (quotient != "/back") {
+        }
+}
+
 fun main() {
     var action = ""
     while (action != "/exit") {
-        println("Do you want to convert /from decimal or /to decimal? (To quit type /exit)")
+        println("Enter two numbers in format: {source base} {target base} (To quit type /exit)")
         action = readln()
-        when (action) {
-            "/to" -> println("Conversion to decimal result: ${converterTo()}")
-            "/from" -> println("Conversion result: ${converterFrom()}")
+        if (action != "/exit") {
+            val list = List(2) { action.split(' ') }
+            sourse = list[0]
+            target = list[1]
+            converter()
         }
+        // when (action) {
+        //     "/to" -> println("Conversion to decimal result: ${converterTo()}")
+        //     "/from" -> println("Conversion result: ${converterFrom()}")
+        // }
     }
 }
