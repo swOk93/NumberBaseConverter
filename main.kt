@@ -39,19 +39,25 @@ fun converterFrom(quotient: String): String {
 
 fun converter() {
     var quotient = ""
-    while (quotient != "/back") {
-        println("Enter number in base ${sourse} to convert to base ${target} (To go back type /back)")
-        var quotient = "abcde"
-        if (quotient != "/back") {
+    println("Enter number in base ${sourse} to convert to base ${target} (To go back type /back)")
+    quotient = readln()
+    if (quotient != "/back") {
             // if (!isNumeric(quotient)) continue
-            if (target == 10) println("Conversion result:${converterTo(quotient)}")
-            else println("Conversion result:${converterFrom(quotient)}")
-        }
+        if (target == 10) println("Conversion result:${converterTo(quotient)}")
+        else println("Conversion result:${converterFrom(quotient)}")
     }
 }
 
 fun main() {
-    sourse = 36
-    target = 10
-    converter()
+    var action = ""
+    while (action != "/exit") {
+        println("Enter two numbers in format: {source base} {target base} (To quit type /exit)")
+        action = readln()
+        if (action != "/exit") {
+            val list = List(2) { action.split(' ') }
+            sourse = list[0].toInt()
+            target = list[1].toInt()
+            converter()
+        }
+    }
 }
