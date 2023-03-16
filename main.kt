@@ -1,6 +1,8 @@
 package converter // Do not delete this line
 
 import java.math.BigInteger
+import java.math.BigDecimal
+import java.math.RoundingMode
 
 var sourse = 0
 var target = 0
@@ -10,19 +12,22 @@ fun converterTo(quot: String): String {
     var res = BigInteger("0")
     repeat(quotient.length) {
         if (sourse > 9 && !quotient[it].isDigit()) {
-            val n = quotient[it].uppercaseChar().code - 55
-            res += (n * Math.pow(sourse.toDouble(), (quotient.length-it-1).toDouble())).toInt().toBigInteger()
+            val n = (quotient[it].uppercaseChar().code - 55).toBigDecimal()
+            res += (n * BigDecimal(sourse).pow(quotient.length-it-1)).setScale(0, RoundingMode.UNNECESSARY).toBigInteger()
         }
         else if (it != quotient.length) {
-            if (quotient[it].digitToInt() in 0..9) res += (quotient[it].digitToInt() * Math.pow(sourse.toDouble(), (quotient.length-it-1).toDouble())).toInt().toBigInteger()
+            if (quotient[it].digitToInt() in 0..9) {
+                res += (BigDecimal(quotient[it].digitToInt()) * BigDecimal(sourse).pow(quotient.length-it-1)).setScale(0, RoundingMode.UNNECESSARY).toBigInteger()
+            }
         }
     }
     return res.toString()
 }
 
-fun converterFrom(quotient: String): String {
-    var quotient = quotient.toBigInteger()
-    if (sourse != 10) quotient = converterTo(quotient.toString()).toBigInteger()
+fun converterFrom(quot: String): String {
+    var quotient = BigInteger("0")
+    if (sourse != 10) quotient = converterTo(quot.toString()).toBigInteger()
+    else quotient = quot.toBigInteger()
     var res = ""
     while (quotient != BigInteger.ZERO) {
         val rem = (quotient % target.toBigInteger()).toInt()
